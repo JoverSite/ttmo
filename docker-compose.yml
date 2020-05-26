@@ -1,0 +1,15 @@
+version: '3'
+services:
+  web_ui:
+    build:
+      context: ./web_ui
+      args:
+        NPM_REGISTRY: https://registry.npm.taobao.org
+        FRONT_REPO: https://gitee.com/JoverSite/web-front
+        BACK_REPO: https://gitee.com/JoverSite/web-back
+        FRONT_BRANCH: package
+        BACK_BRANCH: dev
+    container_name: web_ui
+    command: ["--port", "80"]
+    ports:
+      - 80:80
