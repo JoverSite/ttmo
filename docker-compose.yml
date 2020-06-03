@@ -1,5 +1,28 @@
 version: '3'
+
+networks:
+  gateway:
+    driver: overlay
+
+volumes:
+  nginx_conf: ./nginx/default.conf
+  nginx_cert: ./nginx/cert
+
 services:
+  nginx:
+    depends_on:
+      - web_ui
+    image: nginx
+    container_name: nginx
+    networks:
+      - gateway
+    ports:
+      - 80:80
+    volumes:
+      - nginx_conf:/etc/nginx/conf.d/default.conf:ro
+      - nginx_cert:/etc/nginx/cert:ro
+
+
   web_ui:
     build:
       context: ./web_ui
@@ -10,6 +33,6 @@ services:
         FRONT_BRANCH: package
         BACK_BRANCH: dev
     container_name: web_ui
-    command: ["--port", "80"]
-    ports:
-      - 80:80
+    networks:
+      - gateway
+    command: ["--port", "8080"]
