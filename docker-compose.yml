@@ -9,7 +9,6 @@ services:
     depends_on:
       - web_ui
     image: nginx
-    container_name: nginx
     networks:
       - gateway
     ports:
@@ -21,8 +20,6 @@ services:
 
 
   web_ui:
-    deploy:
-      replicas: 2
     build:
       context: ./web_ui
       args:
@@ -31,7 +28,6 @@ services:
         BACK_REPO: https://gitee.com/JoverSite/web-back
         FRONT_BRANCH: package
         BACK_BRANCH: dev
-    container_name: web_ui
     networks:
       - gateway
     command: ["--port", "8080"]
