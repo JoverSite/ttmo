@@ -4,6 +4,9 @@ networks:
   gateway:
     driver: overlay
 
+volumes:
+  static_files:
+
 services:
   nginx:
     depends_on:
@@ -15,19 +18,15 @@ services:
       - 80:80
       - 443:443
     volumes:
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./nginx/conf:/etc/nginx/conf.d:ro
       - ./nginx/cert:/etc/nginx/cert:ro
+      - static_files:/static:ro
 
 
   web_ui:
-    build:
-      context: ./web_ui
-      args:
-        NPM_REGISTRY: https://registry.npm.taobao.org
-        FRONT_REPO: https://gitee.com/JoverSite/web-front
-        BACK_REPO: https://gitee.com/JoverSite/web-back
-        FRONT_BRANCH: package
-        BACK_BRANCH: dev
+    image: web_ui
     networks:
       - gateway
+    volumes:
+      - static_files:/www/src/static
     command: ["--port", "8080"]

@@ -14,13 +14,15 @@
     Use **[koa](https://github.com/koajs/koa)** in **[node](https://github.com/nodejs/node)** as **back end** framework.  
 
 # Usage
+To building any docker image by Dockerfile.
+```shell script
+git clone [other_sub-project]
+docker build -t [image_name:tag] .
+```
+
 To download the project using git and using docker-compose to running these sub-projects.
 ```shell script
 git clone -b master https://github.com/JoverSite/devops
+docker swarm init --advertise-addr [your_ip]
 docker-compose up
-```
-To building any docker image by Dockerfile.
-```shell script
-cd [sub project directory]
-docker build -t [image_name:tag] .
 ```
